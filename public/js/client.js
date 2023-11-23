@@ -22,12 +22,6 @@ TrelloPowerUp.initialize({
               url: './auth.html',
               height: 75
             });
-          } else {
-            return context.popup({
-              title: 'Change Snooze Time',
-              url: './set-snooze.html',
-              height: 411
-            });
           }
         }
       }];
