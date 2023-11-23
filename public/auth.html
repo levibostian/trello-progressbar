@@ -37,15 +37,15 @@
           // store the token in Trello private Power-Up storage
           return t.set('member', 'private', 'token', token)
         })
-        // .then(function(){
-        //   // now that we have the token we needed lets go on to letting
-        //   // the user set the snooze time
-        //   return t.popup({
-        //     title: 'Change Snooze Time',
-        //     url: './set-snooze.html',
-        //     height: 411
-        //   });
-        // });
+        .then(function(){
+          // now that we have the token we needed lets go on to letting
+          // the user set the snooze time
+          return t.popup({
+            title: 'Enable Progress Bar on Card',
+            url: './enable-progressbar.html',
+            height: 411
+          });
+        });
       });
     </script>
   </body>
