@@ -27,12 +27,8 @@
         trelloAuthUrl += param + '=' + encodeURIComponent(authParams[param]) + '&';
       });
 
-      var tokenLooksValid = function(token) {
-        return /^[0-9a-f]{64}$/.test(token);
-      }
-
       document.getElementById('auth-btn').addEventListener('click', function(){
-        t.authorize(trelloAuthUrl, { height: 680, width: 580, validToken: tokenLooksValid })
+        t.authorize(trelloAuthUrl, { height: 680, width: 580 })
         .then(function(token){
           // store the token in Trello private Power-Up storage
           return t.set('member', 'private', 'token', token)
@@ -45,6 +41,8 @@
             url: './enable-progressbar.html',
             height: 411
           });
+        }).catch(function(e){
+          console.log(e);
         });
       });
     </script>
