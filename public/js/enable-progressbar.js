@@ -30,7 +30,7 @@ let resize = function(){
 document.getElementById('enable-btn').addEventListener('click', function(){
   console.log('enable-btn clicked');
 
-  t.card('id')
+  t.card('all')
   .then(function(card){
     console.log(JSON.stringify(card, null, 2));
 
