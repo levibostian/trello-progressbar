@@ -23,10 +23,10 @@ TrelloPowerUp.initialize({
               height: 75
             });
           } else {
-            return t.popup({
+            context.popup({
               title: 'Enable Progress Bar on Card',
               url: './enable-progressbar.html',
-              height: 411
+              height: 75
             });
           }
         }
