@@ -44,26 +44,26 @@ document.getElementById('enable-btn').addEventListener('click', function(){
   });
 });
 
-document.getElementById('remove-btn').addEventListener('click', function(){
-  t.card('id')
-  .then(function(card){
-    $.ajax({
-      url: `/snooze/${card.id}?` + $.param({ token: token }),
-      type: 'DELETE',
-      success: function(){
-        return t.set('card', 'shared', { idCard: null, time: null, unixTime: null })
-        .then(function(){
-          t.closePopup();
-        });
-      },
-      error: function(err){ console.error('Error deleting from server: ' + JSON.stringify(err)); }
-    });
-  })
-  .catch(function(err){
-    console.error('Error unarchiving card');
-    console.error(err);
-  });
-});
+// document.getElementById('remove-btn').addEventListener('click', function(){
+//   t.card('id')
+//   .then(function(card){
+//     $.ajax({
+//       url: `/snooze/${card.id}?` + $.param({ token: token }),
+//       type: 'DELETE',
+//       success: function(){
+//         return t.set('card', 'shared', { idCard: null, time: null, unixTime: null })
+//         .then(function(){
+//           t.closePopup();
+//         });
+//       },
+//       error: function(err){ console.error('Error deleting from server: ' + JSON.stringify(err)); }
+//     });
+//   })
+//   .catch(function(err){
+//     console.error('Error unarchiving card');
+//     console.error(err);
+//   });
+// });
 
 t.render(function(){
   resize();

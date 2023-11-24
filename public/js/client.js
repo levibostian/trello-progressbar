@@ -22,6 +22,12 @@ TrelloPowerUp.initialize({
               url: './auth.html',
               height: 75
             });
+          } else {
+            return t.popup({
+              title: 'Enable Progress Bar on Card',
+              url: './enable-progressbar.html',
+              height: 411
+            });
           }
         }
       }];
