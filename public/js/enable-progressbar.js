@@ -32,6 +32,8 @@ document.getElementById('enable-btn').addEventListener('click', function(){
 
   t.card('id')
   .then(function(card){
+    console.log(JSON.stringify(card, null, 2));
+
     // $.post('/snooze?', { token: token, cardId: card.id, snoozeTime: unixTime }, function(){
     //   return t.set('card', 'shared', { idCard: card.id, time: snoozeTime, unixTime: unixTime })
     //   .then(function(){
