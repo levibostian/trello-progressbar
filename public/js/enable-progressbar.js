@@ -1,11 +1,7 @@
 /* global TrelloPowerUp, moment, Pikaday */
 
 var Promise = TrelloPowerUp.Promise;
-var t = TrelloPowerUp.iframe({
-  appKey: 'b6adec0a422f05429e2bfa1e2bed2b53',
-  appName: 'Progress Bar',
-  appAuthor: 'Curiosity IO'
-});
+var t = TrelloPowerUp.iframe();
 var token = null;
 
 var TIME_FORMAT = 'LT';
@@ -32,7 +28,6 @@ document.getElementById('enable-btn').addEventListener('click', function(){
       return 
     }
 
-    let cardTitle = card.name;
     // "due": "2023-12-08T12:52:00.000Z",
     // "start": "2023-11-24T14:00:00.000Z",
     let dueDate = new Date(card.due); 
@@ -44,11 +39,24 @@ document.getElementById('enable-btn').addEventListener('click', function(){
 
     let progressPercentage = Math.round((daysDoneThusFar / daysBetweenDueDateAndStartDate) * 100); 
 
-    title = `${cardTitle} - ${daysBetweenDueDateAndStartDate} days, ${progressPercentage}%`;
+    const newTitle = `${card.name} - ${daysBetweenDueDateAndStartDate} days, ${progressPercentage}%`;
 
     console.log(`days done: ${daysDoneThusFar}, total days: ${daysBetweenDueDateAndStartDate}, progress percentage: ${progressPercentage}`)
     
-    console.log(`new title: ${title}`)            
+    console.log(`new title: ${newTitle}`)            
+
+    // https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
+    $.ajax({
+      url: `https://api.trello.com/1/cards/${card.id}?` + $.param({ token, key: "b6adec0a422f05429e2bfa1e2bed2b53", name: newTitle }),
+      headers: {
+        'Accept': 'application/json'
+      },
+      type: 'PUT',
+      success: function(){        
+        t.closePopup();        
+      },
+      error: function(err){ console.error('Error deleting from server: ' + JSON.stringify(err)); }
+    });
   })
   .catch(function(err){
     console.error(err);
