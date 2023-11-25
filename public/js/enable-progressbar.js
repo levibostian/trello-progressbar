@@ -35,20 +35,19 @@ document.getElementById('enable-btn').addEventListener('click', function(){
     let cardTitle = card.name;
     // "due": "2023-12-08T12:52:00.000Z",
     // "start": "2023-11-24T14:00:00.000Z",
-    let dueDate = new Date(card.due);
+    let dueDate = new Date(card.due); 
     let startDate = new Date(card.start);
     let now = new Date();
 
-    let daysDoneThusFar = (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24); // TODO: wrong value 
-    let daysBetweenDueDateAndStartDate = (dueDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24); // TODO: wrong value 
+    let daysDoneThusFar = Math.round((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    let daysBetweenDueDateAndStartDate = Math.round((dueDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)); 
 
-    let progressPercentage = (daysDoneThusFar / daysBetweenDueDateAndStartDate) * 100; // TODO: get whole number, not float 
+    let progressPercentage = Math.round((daysDoneThusFar / daysBetweenDueDateAndStartDate) * 100); 
 
-    title = `${cardTitle} - ${progressPercentage}% ${daysBetweenDueDateAndStartDate} days`;
+    title = `${cardTitle} - ${daysBetweenDueDateAndStartDate} days, ${progressPercentage}%`;
 
     console.log(`days done: ${daysDoneThusFar}, total days: ${daysBetweenDueDateAndStartDate}, progress percentage: ${progressPercentage}`)
-
-    // TODO: make sure title is correct. 
+    
     console.log(`new title: ${title}`)            
   })
   .catch(function(err){
