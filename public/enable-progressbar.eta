@@ -49,8 +49,9 @@
           let startDate = new Date(card.start);
           let now = new Date();
       
-          let daysDoneThusFar = Math.round((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+          let daysDoneThusFar = Math.round((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));          
           let daysBetweenDueDateAndStartDate = Math.round((dueDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)); 
+          let daysRemaining = daysBetweenDueDateAndStartDate - daysDoneThusFar;
       
           let progressPercentage = Math.round((daysDoneThusFar / daysBetweenDueDateAndStartDate) * 100); 
 
@@ -59,7 +60,7 @@
           // https://regexr.com/7nt2v
           originalTitle = originalTitle.replace(/\s*- \d+ days, \d+%/,"") // remove old progress bar if it exists
       
-          const newTitle = `${originalTitle} - ${daysBetweenDueDateAndStartDate} days, ${progressPercentage}%`;
+          const newTitle = `${originalTitle} - ${daysRemaining} days, ${progressPercentage}%`;
       
           console.log(`days done: ${daysDoneThusFar}, total days: ${daysBetweenDueDateAndStartDate}, progress percentage: ${progressPercentage}`)
           
