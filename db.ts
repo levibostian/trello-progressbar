@@ -1,11 +1,22 @@
 const kv = await Deno.openKv();
 
 export const addCard = async(cardId: string, trelloToken: string): Promise<void> => {
-  const existingCards = await getCards(trelloToken)
-  const cards = new Set(existingCards)
-  cards.add(cardId)  
+  let res = { ok: false };
+  while (!res.ok) {
+    const existingCardsRow = await kv.get(["cards", trelloToken])
+    const existingCards = existingCardsRow.value as string[] | null
+    const cards = existingCards ?? []
+    if (cards?.includes(cardId)) return // card already exists in the database
 
-  await kv.set(["cards", trelloToken], cards);
+    cards.push(cardId)
+
+    // Attempt to commit the transaction. `res` returns an object with
+    // `ok: false` if the transaction fails to commit due to a check failure
+    res = await kv.atomic()
+      .check(existingCardsRow) // Ensure the cards haven't changed since read
+      .set(["cards", trelloToken], cards) 
+      .commit();
+  }
 }
 
 export const getCards = async(trelloToken: string): Promise<string[]> => {
@@ -15,11 +26,4 @@ export const getCards = async(trelloToken: string): Promise<string[]> => {
   if (cards === null) return []
 
   return cards
-}
-
-export const deleteCard = async(cardId: string, trelloToken: string): Promise<void> => {
-  let cards = await getCards(trelloToken)
-  cards = cards.splice(cards.indexOf(cardId), 1) // removes the cardId from the array
-
-  await kv.set(["cards", trelloToken], cards);  
 }

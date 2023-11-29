@@ -7,5 +7,6 @@ export const enableCard = async(request: Request): Promise<void> => {
 
   await db.addCard(cardId, trelloToken)  
 
-  await trello.updateCard({cardId, trelloToken}) 
+  //await trello.registerWebhook({cardId, trelloToken}) // TODO 
+  //await trello.updateCardProgressBar({cardId, trelloToken}) // TODO 
 }
