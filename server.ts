@@ -12,7 +12,11 @@ Deno.serve(async(request: Request) => {
     case "/api/enable-card":
       await enableCard(request);
       return new Response("OK", { status: 200 });
-      
+    
+    case "/api/trello/webhook-callback":
+      // TODO: update title if card dates have changed.
+      return new Response("OK", { status: 200 });
+
     default: // web pages 
       if (path == "/") path = "index";
       path = path.replace(".html", "");
