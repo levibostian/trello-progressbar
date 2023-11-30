@@ -6,9 +6,28 @@ export const updateCardProgressBar = async (args: { cardId: string, trelloToken:
   const card = await getCard(cardId, trelloToken);
   if (!card) return false;
 
-  // TODO: create new title based on dates. 
+  if (card.due === null || card.start === null) {    
+    return false 
+  }
 
-  const newTitle = `${card.name} NEW!`;
+  // "due": "2023-12-08T12:52:00.000Z",
+  // "start": "2023-11-24T14:00:00.000Z",
+  const dueDate = new Date(card.due); 
+  const startDate = new Date(card.start);
+  const now = new Date();
+
+  const daysDoneThusFar = Math.round((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));          
+  const daysBetweenDueDateAndStartDate = Math.round((dueDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)); 
+  const daysRemaining = daysBetweenDueDateAndStartDate - daysDoneThusFar;
+
+  const progressPercentage = Math.round((daysDoneThusFar / daysBetweenDueDateAndStartDate) * 100); 
+
+  let originalTitle = card.name;
+
+  // https://regexr.com/7o5o0
+  originalTitle = originalTitle.replace(/\s*- \d+ days, \d+%/, "") // remove old progress bar if it exists
+
+  const newTitle = `${originalTitle} - ${daysRemaining} days, ${progressPercentage}%`;
 
   const response = await fetch(new Request(`https://api.trello.com/1/cards/${cardId}?key=${trelloApiKey}&token=${trelloToken}`, {
     method: "POST",
