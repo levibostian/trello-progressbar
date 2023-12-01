@@ -24,3 +24,8 @@ Deno.serve(async(request: Request) => {
       return new Response(eta.render(path, { TRELLO_API_KEY: Deno.env.get("TRELLO_API_KEY") }), { status: 200, headers: { "content-type": "text/html" } });
   }
 });
+
+// https://crontab.guru/every-day-at-1am
+Deno.cron("Update all card titles once per day", "0 1 * * *", () => {
+  
+});
