@@ -2,6 +2,6 @@
     "tasks": {
         // Test app by deploying to a non-prod deno deploy project
         // Because we are using deno KV database, deploying to deno deploy is easiest way to test at the moment. 
-        "run": "deployctl deploy --project=trello-progressbar-dev server.ts"
+        "run": "deployctl deploy --project=trello-progressbar-dev --prod server.ts"
     }
 }

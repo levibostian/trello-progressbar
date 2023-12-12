@@ -42,6 +42,34 @@ export const updateCardProgressBar = async (args: { cardId: string, trelloToken:
   return response.ok;
 }
 
+// TODO
+// https://developer.atlassian.com/cloud/trello/guides/rest-api/webhooks/#webhook-signatures
+export const verifyWebhookRequestFromTrello = async (request: Request): Promise<boolean> => {
+  return true 
+
+  // const callbackUrl = request.url
+
+  // const content = JSON.stringify(request.body) + callbackUrl;
+
+  // const doubleHash = crypto.createHmac("sha1", secret).update(content).digest("base64");
+  // var headerHash = request.headers["x-trello-webhook"];
+  // return doubleHash == headerHash;
+}
+
+export const handleWebhookCallback = async (request: Request): Promise<void> => {  
+  // if (!await verifyWebhookRequestFromTrello(request)) return 
+
+  // const body = await request.json() as TrelloWebhook
+
+  // if (body.action.type !== "updateCard") return 
+
+  // const trelloCard = await db.getCard(body.model.id)
+  // if (!trelloCard) return
+
+  // await db.updateCard(...) // update the title, start, and due date in the database
+  // await updateCardProgressBar({cardId: trelloCard.id, trelloToken: trelloCard.trelloToken})  
+}
+
 export const registerWebhook = async (args: { cardId: string, trelloToken: string }): Promise<boolean> => {
   const response = await fetch(new Request(`https://api.trello.com/1/webhooks/?callbackURL=${trelloWebhookCallbackURL}&idModel=${args.cardId}&key=${Deno.env.get("TRELLO_API_KEY")}&token=${args.trelloToken}`, {
     method: "POST",
@@ -70,4 +98,13 @@ interface TrelloCard {
   start: string | null
   due: string | null  
   name: string
+}
+
+interface TrelloWebhook {
+  action: {
+    type: "updateCard" | string // the action that occurred 
+  },
+  model: {
+    id: string // what will represent the cardid 
+  }
 }
