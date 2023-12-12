@@ -17,6 +17,7 @@
       </div> -->
     </div>
     <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="/js/app.js"></script>
     <script>
       var t = TrelloPowerUp.iframe();
       var token = null;
@@ -32,52 +33,12 @@
       
       document.getElementById('enable-btn').addEventListener('click', function(){
         console.log('enable-btn clicked');
-      
+        
         t.card('all')
-        .then(async function(card){
-          console.log(JSON.stringify(card, null, 2));    
-      
-          if (card.due === null || card.start === null) {
-            // TODO: modify pop-up to indicate that you cannot enable progress bar on card until dates added. for now, we will just log an error for dev. 
-            console.error('Cannot enable progress bar on card without due and start dates');
-            return 
-          }
-      
-          // "due": "2023-12-08T12:52:00.000Z",
-          // "start": "2023-11-24T14:00:00.000Z",
-          let dueDate = new Date(card.due); 
-          let startDate = new Date(card.start);
-          let now = new Date();
-      
-          let daysDoneThusFar = Math.round((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));          
-          let daysBetweenDueDateAndStartDate = Math.round((dueDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)); 
-          let daysRemaining = daysBetweenDueDateAndStartDate - daysDoneThusFar;
-      
-          let progressPercentage = Math.round((daysDoneThusFar / daysBetweenDueDateAndStartDate) * 100); 
+        .then(async function(card){          
+          updateCard(card)
 
-          let originalTitle = card.name;
-
-          // https://regexr.com/7nt2v
-          originalTitle = originalTitle.replace(/\s*- \d+ days, \d+%/,"") // remove old progress bar if it exists
-      
-          const newTitle = `${originalTitle} - ${daysRemaining} days, ${progressPercentage}%`;
-      
-          console.log(`days done: ${daysDoneThusFar}, total days: ${daysBetweenDueDateAndStartDate}, progress percentage: ${progressPercentage}`)
-          
-          console.log(`new title: ${newTitle}`)            
-      
-          // https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
-          $.ajax({
-            url: `https://api.trello.com/1/cards/${card.id}?` + $.param({ token, key: '<%= it.TRELLO_API_KEY %>', name: newTitle }),
-            headers: {
-              'Accept': 'application/json'
-            },
-            type: 'PUT',
-            success: function(){        
-              t.closePopup();        
-            },
-            error: function(err){ console.error('Error deleting from server: ' + JSON.stringify(err)); }
-          });
+          updateAllCards(t) // just run it while we're here. 
         })
         .catch(function(err){
           console.error(err);
