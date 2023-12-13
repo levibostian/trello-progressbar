@@ -4,7 +4,12 @@
 window.Promise = TrelloPowerUp.Promise;
 
 // We need to call initialize to get all of our capability handles set up and registered with Trello
-TrelloPowerUp.initialize({  
+TrelloPowerUp.initialize({ 
+  'board-buttons': function(t, opts) {
+    // function called when board opens up. This is a good callback to update all the cards. 
+    updateAllCards(t)
+    return []
+  },
   'card-buttons': function(t, opts) {
     // check that viewing member has write permissions on this board
     if (opts.context.permissions.board !== 'write') {

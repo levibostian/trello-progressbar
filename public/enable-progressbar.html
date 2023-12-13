@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" type="image/x-icon" href="https://favicon-generator.org/favicon-generator/htdocs/favicons/2014-05-05/c11534f322634cee03445d865cc58db3.ico">
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  </head>
+  <body style="overflow:hidden;">
+    <div class="container">
+      <div class="datepicker-confirm-btns" style="margin-top:4px;">
+        <button id="enable-btn" class="mod-primary mod-bottom">Update title</button>
+        <!-- <button id="remove-btn" class="mod-danger mod-bottom remove-date js-remove-date u-hidden" type="button">Remove</button> -->
+      </div>
+      <!-- <div>
+        <hr style="margin:8px 0;">
+        <span class="u-quiet">Snoozing archives the card until the specified date, when it will be brought back to the board.</span>
+      </div> -->
+    </div>
+    <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+      var t = TrelloPowerUp.iframe();
+      var token = null;
+      
+      t.get('member', 'private', 'token')
+      .then(function(storedToken) {
+        token = storedToken;
+      });
+      
+      let resize = function(){
+        t.sizeTo('.container');
+      };
+      
+      document.getElementById('enable-btn').addEventListener('click', function(){
+        console.log('enable-btn clicked');
+        
+        t.card('all')
+        .then(async function(card){          
+          updateCard(card)
+
+          updateAllCards(t) // just run it while we're here. 
+        })
+        .catch(function(err){
+          console.error(err);
+        });
+      });
+      
+      t.render(function(){
+        resize();
+      })
+    </script>
+  </body>
+</html>
