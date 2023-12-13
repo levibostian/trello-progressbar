@@ -42,7 +42,7 @@ function updateCard(card) {
 
   // https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put
   $.ajax({
-    url: `https://api.trello.com/1/cards/${card.id}?` + $.param({ token, key: 'b6adec0a422f05429e2bfa1e2bed2b53', name: newTitle }),
+    url: `https://api.trello.com/1/cards/${card.id}?` + $.param({ token, key: powerupApiKey, name: newTitle }),
     headers: {
       'Accept': 'application/json'
     },
