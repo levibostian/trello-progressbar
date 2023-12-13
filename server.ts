@@ -1,12 +1,7 @@
-import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
-
-const eta = new Eta({ views: "./public" });
+import { serveDir } from "https://deno.land/std@0.207.0/http/file_server.ts";
 
 Deno.serve((request: Request) => {
-  const requestUrl = new URL(request.url);
-  let path = requestUrl.pathname;
-  if (path == "/") path = "index";
-  path = path.replace(".html", "");
-
-  return new Response(eta.render(path, { TRELLO_API_KEY: Deno.env.get("TRELLO_API_KEY") }), { status: 200, headers: { "content-type": "text/html" } });
+  return serveDir(request, {
+    fsRoot: "public"
+  })
 });
