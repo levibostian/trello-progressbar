@@ -1,10 +1,6 @@
 
 // 2d left
 export function getTimeLeft(card) {   
-  if (card.due === null || card.start === null) {
-    return
-  }
-
   let timeData = getTimeDataFromCard(card);
 
   console.log(timeData);
@@ -19,10 +15,6 @@ export function getTimeLeft(card) {
 
 // 2d used (50%)
 export function getTimeUsed(card) { 
-  if (card.due === null || card.start === null) {
-    return
-  }
-
   let timeData = getTimeDataFromCard(card);
 
   return `${timeData.daysDoneThusFar}d used (${timeData.progressPercentage}%)`

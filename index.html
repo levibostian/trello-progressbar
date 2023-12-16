@@ -7,9 +7,9 @@
     <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
 
-    <script type="module" src="app.mjs"></script>
+    <script type="module">
+      import { getTimeLeft, getTimeUsed } from "./app.mjs"
 
-    <script>
       TrelloPowerUp.initialize({
       'card-badges': function (t, opts) { // https://developer.atlassian.com/cloud/trello/power-ups/capabilities/card-badges/
         return t.card('all')
