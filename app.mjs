@@ -20,13 +20,20 @@ export function getTimeUsed(card) {
   return `${timeData.daysDoneThusFar}d used (${timeData.progressPercentage}%)`
 }
 
+var overrideNow = undefined;
+
+// allows tests to override now. 
+export function setTime(now) {
+  overrideNow = now 
+}
+
 function getTimeDataFromCard(card) {
   // "due": "2023-12-08T12:52:00.000Z",
   // "start": "2023-11-24T14:00:00.000Z",
   let dueDate = new Date(card.due);
   let startDate = new Date(card.start);  
-  startDate.setHours(0,0,0,0); // make start date midnight. trello makes it 8am by default. we get more accurate hour calculations this way.
-  let now = new Date();
+  //startDate.setHours(0,0,0,0); // make start date midnight. trello makes it 8am by default. we get more accurate hour calculations this way.
+  let now = overrideNow ||= new Date();
 
   let hoursBetweenDueDateAndStartDate = Math.round((dueDate.getTime() - startDate.getTime()) / (1000 * 60 * 60));
 
