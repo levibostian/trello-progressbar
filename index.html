@@ -10,8 +10,7 @@
     <script type="module">
       import { getTimeLeft, getTimeUsed } from "./app.mjs"
 
-      TrelloPowerUp.initialize({
-      'card-badges': function (t, opts) { // https://developer.atlassian.com/cloud/trello/power-ups/capabilities/card-badges/
+      const getCardBadges = function (t, opts) { // https://developer.atlassian.com/cloud/trello/power-ups/capabilities/card-badges/
         return t.card('all')
         .then(function (card) {
           var badges = [];
@@ -50,8 +49,12 @@
 
           return badges;
         })
-      },
-    });
+      }
+
+      TrelloPowerUp.initialize({
+      'card-badges': getCardBadges,
+      'card-detail-badges': getCardBadges
+      });
     </script>
   </body>
 </html>
